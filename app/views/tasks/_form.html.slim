@@ -1,0 +1,22 @@
+/ =============================================================
+/ 「パーシャルテンプレート」・・・共通化ファイル
+/ パーシャルテンプレートのファイルの先頭はアンダースコアをつける
+/ パーシャルの「model: task」はローカル変数にすることで、いろんなとこでローカル変数に値を渡すことで再利用できる
+/ =============================================================
+
+/ フォームとモデル（テーブルのカラム名）は密接（フォームに入力された値がテーブルのカラムに保存される）なので、フォームとモデルを関連づける。
+/ local: trueは「data-remote="true"」をformタグに付けない設定
+/ formのaction属性やHTTPのメソッドも@taskの状況でRailsが判断してくれる。なので「name="_method"」も自然についている。
+/ <input type="hidden" name="_method" value="patch">
+= form_with model: task, local: true do |f|
+  .form-group
+    / :nameはlabelタグのfor属性とinputタグのid属性を紐付ける。さらにモデルが持つ属性（テーブルのカラム名)を指定すると、ja.ymlファイルを参照して翻訳してくれる
+    = f.label :name
+    / :nameがinputタグのname属性をTaskモデルの属性（テーブルのカラム名)と紐づける形で作ってくれる
+    = f.text_field :name, class: 'form-control', id: 'task_name'
+  .form-group
+    = f.label :description
+    = f.text_area :description, rows: 5, class: 'form-control', id: 'task_description'
+  / submitメソッドの第１引数をnilにしているので、ja.ymlファイルの「helpers」の「submit」の中を見て、@taskの中身の状態を見て、何がしたいのかを勝手に判断してvalue属性の値を「登録」などの名前を付けてくれる
+  / nil以外で第１引数に名前をつけることもできる。
+  = f.submit nil, class: 'btn btn-primary'

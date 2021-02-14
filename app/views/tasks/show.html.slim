@@ -1,0 +1,31 @@
+h1 タスクの詳細
+
+.nav.justify-content-end
+  = link_to "一覧", tasks_path, class: 'nav-link'
+
+table.table.table-hover
+  tbody
+    tr
+      th= Task.human_attribute_name(:id)
+      td= @task.id
+    tr
+      th= Task.human_attribute_name(:name)
+      / オブジェクト名.メソッド名 でメソッドを実行している
+      td= @task.name
+    tr
+      th= Task.human_attribute_name(:description)
+      / @task.description ➡︎ こうすると複数行でタスクを書いて登録していても、一行で表示される。「\n」改行コードはプログラム上で改行するが、画面では改行されない。
+      / simple_formatメソッドは文字列をpタグで囲ってくれる。今回はdivタグで囲いたいので「wrapper_tag: "div"」を引数で指定している
+      / さらにsimple_formatメソッドは改行コード（\n）を<br>タグに変換してくれる
+      / sanitaizeは一部の危険なHTMLタグを取り除いてくれる。例えば<p>こんにちは</p>を入力しても<p></p>は表示されない
+      / 全てのタグ(JSとかも)を安全に表示する表示するためにhメソッドを使う。セキュリティ対策（XSS)
+      td= simple_format(h(@task.description), {}, sanitaize: false, wrapper_tag: "div")
+    tr
+      th= Task.human_attribute_name(:created_at)
+      td= @task.created_at
+    tr
+      th= Task.human_attribute_name(:updated_at)
+      td= @task.updated_at
+
+= link_to  "編集", edit_task_path, class: 'btn btn-primary mr-3'
+= link_to  "削除", @task, method: :delete, data: { confirm: "タスク「#{@task.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger'

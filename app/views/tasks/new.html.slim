@@ -1,0 +1,10 @@
+h1 タスクの新規登録
+
+.nav.justify-content-end
+  = link_to  "一覧", tasks_path, class: 'nav-link'
+
+/ パーショルテンプレート（共通化ファイル）を読み込む
+/ パーシャルテンプレートをrender読み込む際は、'form'のようにアンダースコアを付けない
+/ localsオプションは、パーシャルテンプレート内のローカル変数（task）を指定する。
+/ locals: { task: @task }は「インスタンンス変数@taskを、パーシャルテンプレートのローカル変数taskに渡す」という意味になる
+= render partial: 'form', locals: { task: @task }

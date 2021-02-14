@@ -1,0 +1,28 @@
+h1 タスク一覧
+
+= link_to "新規登録", new_task_path, class: 'btn btn-primary'
+
+.mb-3
+table.table.table-hover
+  thead.thead-default
+    tr
+      / th= Task.model_name.human ➡︎ こうするとja.ymlファイルの「models:」の「task」の翻訳情報(タスク)を表示してくれる
+      / モデル名.human_attribute_name(:カラム名)とすると、I18nモジュールを利用して、ja.ymlの翻訳情報をとってくる
+      th= Task.human_attribute_name(:name)
+      th= Task.human_attribute_name(:created_at)
+      th
+  tbody
+    / コントローラー側の@tasksを「@tasks.each」で使っているので、ここでDBに検索をかけてデータをとってきている(配列形式)
+    - @tasks.each do |task|
+      tr
+        / task.nameはtaskオブジェクトのnameメソッド(ゲッターメソッド)を呼び出して、戻り値を使っている
+        / 第２引数のURLはtaskオブジェクトからRailsが推測して作ってくれる
+        / td= link_to task.name, task_path(task) ➡︎ URLヘルパーメソッドを使って書くこともできる
+        td= link_to task.name, task
+        td= task.created_at
+        td
+          / パスは「/tasks/:id/edit」になるので、URLヘルパーメソッドの引数にオブジェクトを渡すとRailsが勝手に生成してくれる
+          = link_to  "編集", edit_task_path(task), class: 'btn btn-primary mr-3'
+          / mehod: :deleteでHTTPメソッドをDELETEでリクエストする
+          / data: { confirm: "メッセージ" }でJSの確認用ダイアログを表示してくれる
+          = link_to  "削除", task, method: :delete, data: { confirm: "タスク「#{task.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger'
