@@ -19,7 +19,8 @@ table.table.table-hover
       / さらにsimple_formatメソッドは改行コード（\n）を<br>タグに変換してくれる
       / sanitaizeは一部の危険なHTMLタグを取り除いてくれる。例えば<p>こんにちは</p>を入力しても<p></p>は表示されない
       / 全てのタグ(JSとかも)を安全に表示する表示するためにhメソッドを使う。セキュリティ対策（XSS)
-      td= simple_format(h(@task.description), {}, sanitaize: false, wrapper_tag: "div")
+      / auto_linkというGemを使うと、URLを投稿したらリンクにしてくれる。html: { target: '_blank' }で別タブで表示できる。
+      td= auto_link(simple_format(h(@task.description), {}, sanitaize: false, wrapper_tag: "div"), html: { target: '_blank' })
     tr
       th= Task.human_attribute_name(:created_at)
       td= @task.created_at

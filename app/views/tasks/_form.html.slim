@@ -4,6 +4,13 @@
 / パーシャルの「model: task」はローカル変数にすることで、いろんなとこでローカル変数に値を渡すことで再利用できる
 / =============================================================
 
+/ エラーメッセージの表示
+/ task.errorsのオブジェクト（ActiveModel::Errors）に値が存在すればtrue、存在しなければfalseになる
+- if task.errors.present?
+  ul#error_explanation
+    - task.errors.full_messages.each do |message|
+      li= message
+
 / フォームとモデル（テーブルのカラム名）は密接（フォームに入力された値がテーブルのカラムに保存される）なので、フォームとモデルを関連づける。
 / local: trueは「data-remote="true"」をformタグに付けない設定
 / formのaction属性やHTTPのメソッドも@taskの状況でRailsが判断してくれる。なので「name="_method"」も自然についている。

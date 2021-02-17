@@ -10,6 +10,19 @@ html
   body
     .app-title.navbar.navbar-expand-md.navbar-light.bg-light
       .navbar-brand Taskleaf
+
+      ul.navbar-nav.ml-auto
+        / application_controllerに記載したヘルパーメソッドを呼んでいる
+        - if current_user
+          li.nav-item.nav-link= "ログインユーザー：#{current_user.name}"
+          li.nav-item= link_to 'タスク一覧', tasks_path, class: 'nav-link'
+          / 管理者権限があるかどうかでリンクの表示・非表示を返る
+          - if current_user.admin?
+            li.nav-item= link_to 'ユーザー一覧', admin_users_path, class: 'nav-link'
+          li.nav-item= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link'
+        - else
+          li.nav-item= link_to 'ログイン', login_path, class: 'nav-link'
+
     .container
       / フラッシュメッセージを表示。リロードすると消える。
       - if flash.notice.present?
