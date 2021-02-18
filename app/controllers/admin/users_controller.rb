@@ -47,6 +47,7 @@ class Admin::UsersController < ApplicationController
 
   private
 
+  # StrongParamerters
   def user_params
     params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
   end

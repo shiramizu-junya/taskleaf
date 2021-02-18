@@ -2,9 +2,12 @@ class ApplicationController < ActionController::Base
   # ビューファイルからも使えるようにヘルパーメソッドとして登録する
   helper_method :current_user
   # フィルタとしてメソッドを登録
-  # 「フィルタ」というアクションを処理する前に任意の処理を挟むことができる
+  # 「フィルタ」という、アクションを処理する前に任意の処理を挟むことができる
   # アクションを実行する前にリダイレクトして、アクションに到達しないようにする。なので特定の状況の時だけアクションが利用できるように制限する目的に使う。
   before_action :login_require
+
+  # 「フィルタ」を使って複数の言語(locals.rb、ja.yml)を切り替えて利用できるようにする(ユーザーごとに利用言語を設定する)
+  # before_action :set_locale
 
   private
 
@@ -20,4 +23,10 @@ class ApplicationController < ActionController::Base
   def login_require
     redirect_to login_url unless current_user
   end
+
+  # 国際化（ユーザー選んだ言語ごとに切り替える）
+  # usersテーブルにlocaleというカラムを用意して、ログインしているユーザーのlocaleカラムの値を取得する。
+  # def set_locale
+  #   I18n.locale = current_user&.locale || :ja
+  # end
 end

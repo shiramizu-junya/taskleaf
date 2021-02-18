@@ -10,7 +10,6 @@ table.table.table-hover
       / モデル名.human_attribute_name(:カラム名)とすると、I18nモジュールを利用して、ja.ymlの翻訳情報をとってくる
       th= Task.human_attribute_name(:name)
       th= Task.human_attribute_name(:created_at)
-      th
   tbody
     / コントローラー側の@tasksを「@tasks.each」で使っているので、ここでDBに検索をかけてデータをとってきている(配列形式)
     - @tasks.each do |task|

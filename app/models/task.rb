@@ -6,10 +6,8 @@ class Task < ApplicationRecord
   # バリデーション(検証)用のメソッドを「validate」というクラスメソッドに渡して、検証用のメソッドとして登録する
   validate :validate_name_not_including_comma
 
-  # バリデーションチェック（必須入力）
-  validates :name, presence: true
-  # バリデーションチェック（30文字以上はエラー）
-  validates :name, length: { maximum:30 }
+  # バリデーションチェック（必須入力、30文字以上はエラー）
+  validates :name, presence: true, length: { maximum:30 }
 
   # 「関連」というDB上の紐付けを前提にモデルクラス同士を紐ずける。
   # UserモデルとTaksモデルは「１対多数」なので、多数の方に「belong_to:１のモデル名」を指定
